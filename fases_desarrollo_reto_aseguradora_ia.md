@@ -410,11 +410,20 @@ testigos (bool), autoridades (bool), asistencia_medica (bool)
 
 ---
 
-### Fase 3 — Feature engineering y cruce
+### Fase 3 — Feature engineering y cruce ✅ COMPLETADA
 
 **Objetivo:** Generar tabla unificada con todas las variables de riesgo.
 
 **Archivo:** `src/features/build_features.py`
+
+**Resultado real (2026-05-29):**
+- `claims_with_documents.csv`: 500 filas, 87 columnas
+- Siniestros con PDFs enriquecidos: 24
+- Señales documentales cruzadas: `doc_factura_alterada`, `doc_ruc_invalido`, `doc_caso_fraude`, `doc_sin_denuncia_previa`, `doc_parte_tardio`, `doc_sin_testigos`, `doc_tercero_identificado`, etc.
+- Alertas combinadas generadas: `alerta_robo_sin_denuncia`, `alerta_similitud_sin_testigos`, `alerta_proveedor_fraude_documental`
+- `score_documental_raw` (0-100) calculado por siniestro
+- SIN-0005: score_documental = 90 (factura_alterada + ruc_invalido + caso_fraude + sin_denuncia)
+- 24/24 tests pasando — `tests/test_build_features.py`
 
 **Variables derivadas (además de las ya en el Excel):**
 
