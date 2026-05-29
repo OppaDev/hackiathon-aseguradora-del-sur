@@ -28,5 +28,9 @@ Thumbs.db
 
 # IDEs
 .vscode/
+
+# Presentación — node_modules del builder JS
+presentation/node_modules/
+presentation/package-lock.json
 .idea/
 *.swp
