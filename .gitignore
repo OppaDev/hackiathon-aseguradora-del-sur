@@ -28,9 +28,19 @@ Thumbs.db
 
 # IDEs
 .vscode/
-
-# Presentación — node_modules del builder JS
-presentation/node_modules/
-presentation/package-lock.json
 .idea/
 *.swp
+
+# Presentación — node_modules del builder JS y archivos temporales Office
+presentation/node_modules/
+presentation/package-lock.json
+~$*.pptx
+~$*.xlsx
+~$*.docx
+
+# Claude Code session files
+.claude/
+
+# Archivos del reto / datos originales del evento (no necesarios en producción)
+"Data set documentos evento_/"
+hackIAthon*.pdf
