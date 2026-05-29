@@ -36,11 +36,11 @@ score_riesgo = 40% × score_reglas
              + 15% × score_nlp
 ```
 
-| Nivel | Rango | Acción |
-|-------|-------|--------|
-| BAJO  | 0–30  | Flujo normal de liquidación |
-| MEDIO | 31–65 | Escalar a Unidad Antifraude |
-| ALTO  | 66–100 | Revisión especializada de campo |
+| Nivel | Rango  | Acción |
+|-------|--------|--------|
+| 🟢 BAJO  | 0–40   | Flujo normal de liquidación |
+| 🟡 MEDIO | 41–75  | Escalar a Unidad Antifraude para revisión documental |
+| 🔴 ALTO  | 76–100 | Detener pago. Revisión especializada de campo |
 
 ## Configuración del agente IA
 
