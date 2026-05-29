@@ -451,11 +451,20 @@ hora_siniestro  # para regla de madrugada
 
 ---
 
-### Fase 4 — Motor de reglas antifraude
+### Fase 4 — Motor de reglas antifraude ✅ COMPLETADA
 
 **Objetivo:** Reglas explicables que asignan puntos y generan alertas.
 
 **Archivo:** `src/rules/fraud_rules.py`
+
+**Resultado real (2026-05-29):**
+- 24 reglas implementadas (R001-R024), incluyendo las 7 reglas críticas del reto
+- `apply_rules(row)` → dict con rule_points, alerts, critical_flags, explanations, severity_max
+- `apply_rules_df(df)` → añade 7 columnas rule_* al DataFrame completo
+- Distribución en dataset real: 90 CRÍTICO | 330 ALTO | 74 NINGUNA
+- SIN-0005: 61 pts (R002+R006+R012+R013+R019+R021+R023) — caso de mayor riesgo
+- Todas las explicaciones en español para el analista
+- 37/37 tests pasando — `tests/test_fraud_rules.py`
 
 **Reglas completas (basadas en PDF del reto + matriz de evaluación):**
 

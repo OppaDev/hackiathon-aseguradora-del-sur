@@ -55,6 +55,14 @@ def _agg_docs(docs: pd.DataFrame) -> pd.DataFrame:
         row["doc_sin_testigos"]          = _any_true(grp.get("sin_testigos", pd.Series(dtype=bool)))
         row["doc_sin_intervencion"]      = _any_true(grp.get("sin_intervencion_policial", pd.Series(dtype=bool)))
 
+        # Hora del accidente (para regla R022: madrugada sin testigos)
+        horas = grp["hora_accidente"].dropna() if "hora_accidente" in grp.columns else pd.Series(dtype=str)
+        row["doc_hora_accidente"]        = horas.iloc[0] if len(horas) > 0 else None
+
+        # Fecha de factura más temprana (para regla R024: factura previa al siniestro)
+        fechas_fac = grp["fecha_factura"].dropna() if "fecha_factura" in grp.columns else pd.Series(dtype=str)
+        row["doc_fecha_factura_min"]     = fechas_fac.min() if len(fechas_fac) > 0 else None
+
         # Metadata documental
         row["n_pdfs_extraidos"]          = len(grp)
         row["tipos_pdf"]                 = "|".join(grp["tipo_documento"].dropna().unique())
