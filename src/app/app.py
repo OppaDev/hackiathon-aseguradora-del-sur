@@ -894,3 +894,63 @@ elif page == "upload":
             "⚖️ Los scores son alertas para revisión humana. "
             "No constituyen acusaciones ni rechazan automáticamente ningún siniestro."
         )
+
+        # Guardar en session_state para el chat
+        st.session_state["upload_scored_df"] = scored_new
+        st.session_state["upload_filename"]  = uploaded.name
+
+    # ── CHAT SOBRE EL CSV SUBIDO ──────────────────────────────────────────────
+    if "upload_scored_df" in st.session_state:
+        scored_upload = st.session_state["upload_scored_df"]
+        fname         = st.session_state.get("upload_filename", "archivo cargado")
+
+        st.divider()
+        st.subheader("💬 Preguntar sobre los siniestros cargados")
+        st.caption(
+            f"El agente responde en base a los **{len(scored_upload)} siniestros** de `{fname}`. "
+            "No mezcla estos datos con el portafolio histórico."
+        )
+
+        agent_info = get_agent_status()
+        if not agent_info["api_available"]:
+            st.info("⚙️ ANTHROPIC_API_KEY no configurada — el chat usa modo análisis estadístico.")
+
+        if "upload_chat_history" not in st.session_state:
+            st.session_state.upload_chat_history = []
+
+        # Mostrar historial
+        for msg in st.session_state.upload_chat_history:
+            with st.chat_message(msg["role"]):
+                st.markdown(msg["content"])
+
+        if prompt_up := st.chat_input(
+            "Pregunta sobre los siniestros que acabas de subir...",
+            key="upload_chat_input",
+        ):
+            st.session_state.upload_chat_history.append({"role": "user", "content": prompt_up})
+            with st.chat_message("user"):
+                st.markdown(prompt_up)
+
+            with st.chat_message("assistant"):
+                with st.spinner("Analizando siniestros cargados..."):
+                    result_up = answer_question(prompt_up, scored_upload)
+                st.markdown(result_up["answer"])
+                if result_up["mode"] == "fallback":
+                    st.caption("⚙️ Modo estadístico — configure ANTHROPIC_API_KEY para respuestas con IA")
+
+            st.session_state.upload_chat_history.append(
+                {"role": "assistant", "content": result_up["answer"]}
+            )
+
+        col_clear, _ = st.columns([1, 4])
+        with col_clear:
+            if st.session_state.upload_chat_history and st.button(
+                "🗑️ Limpiar chat", key="clear_upload_chat"
+            ):
+                st.session_state.upload_chat_history = []
+                st.rerun()
+
+        st.markdown(
+            "> ⚖️ **Aviso ético:** Este agente identifica posibles señales de riesgo para "
+            "revisión humana. No emite juicios definitivos ni rechaza siniestros automáticamente."
+        )

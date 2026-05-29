@@ -147,10 +147,15 @@ def compute_scores(
 
     # Sub-scores normalizados (0-100)
     score_reglas = _normalize_rules(pd.to_numeric(df["rule_points"], errors="coerce").fillna(0))
-    score_doc    = _normalize_documental(
-        pd.to_numeric(df.get("score_documental_raw", 0), errors="coerce").fillna(0)
-    )
-    score_nlp    = _score_nlp(df.get("similitud_narrativa", 0))
+
+    # Usar Series vacía (ceros) cuando las columnas no están en el CSV subido
+    _doc_raw = df["score_documental_raw"] if "score_documental_raw" in df.columns \
+               else pd.Series(0.0, index=df.index)
+    score_doc = _normalize_documental(pd.to_numeric(_doc_raw, errors="coerce").fillna(0))
+
+    _nlp_raw  = df["similitud_narrativa"] if "similitud_narrativa" in df.columns \
+                else pd.Series(0.0, index=df.index)
+    score_nlp = _score_nlp(_nlp_raw)
     modelo_fb    = modelo_scores is None
     score_ml     = _score_modelo(score_reglas, modelo_scores)
 
