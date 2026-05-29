@@ -37,14 +37,26 @@ def _load_api_key() -> Optional[str]:
     key = os.environ.get("ANTHROPIC_API_KEY", "")
     if key:
         return key
-    # Intentar cargar .env si python-dotenv está instalado
+    # Buscar .env recorriendo hacia arriba desde el archivo actual y desde cwd
     try:
         from dotenv import load_dotenv
-        root = Path(__file__).resolve().parents[2]
-        load_dotenv(root / ".env", override=False)
-        key = os.environ.get("ANTHROPIC_API_KEY", "")
-        if key:
-            return key
+        candidates = []
+        try:
+            candidates.append(Path(__file__).resolve().parents[2] / ".env")
+        except Exception:
+            pass
+        candidates.append(Path.cwd() / ".env")
+        # Buscar subiendo desde cwd
+        p = Path.cwd()
+        for _ in range(5):
+            candidates.append(p / ".env")
+            p = p.parent
+        for env_path in candidates:
+            if env_path.exists():
+                load_dotenv(env_path, override=True)
+                key = os.environ.get("ANTHROPIC_API_KEY", "")
+                if key:
+                    return key
     except ImportError:
         pass
     # Intentar st.secrets (Streamlit Cloud)

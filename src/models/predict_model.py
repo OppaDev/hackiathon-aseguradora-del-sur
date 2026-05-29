@@ -138,8 +138,8 @@ def _prepare_features(df: pd.DataFrame, columns: list[str]) -> pd.DataFrame:
     for col in X.select_dtypes(include="bool").columns:
         X[col] = X[col].astype(int)
 
-    # Imputar nulos con 0
-    X = X.fillna(0)
+    # Imputar nulos con 0, forzar float64 limpio
+    X = X.fillna(0).astype(float)
     return X
 
 
@@ -182,7 +182,9 @@ def predict_scores(df: pd.DataFrame, arts: Optional[ModelArtifacts] = None) -> p
 
     # Isolation Forest score
     if arts.isof is not None:
-        X_scaled  = arts.scaler.transform(X)
+        X_scaled = arts.scaler.transform(X)
+        # Eliminar NaN/Inf producidos por features con varianza cero en el scaler
+        X_scaled = np.nan_to_num(X_scaled, nan=0.0, posinf=0.0, neginf=0.0)
         raw_scores = arts.isof.score_samples(X_scaled)
         s_min, s_max = raw_scores.min(), raw_scores.max()
         if s_max > s_min:
