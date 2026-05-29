@@ -634,11 +634,14 @@ def get_similar_claims(id_siniestro, similarity_df, top_n=5) -> list:
 
 ---
 
-### Fase 8 — Entrenamiento del modelo en Google Colab
+### Fase 8 — Entrenamiento del modelo en Google Colab ✅ COMPLETADA (notebook listo)
 
 **Objetivo:** Entrenar Isolation Forest + Random Forest y exportar artefactos.
 
 **Notebook:** `notebooks/entrenamiento_colab.ipynb`
+
+**Estado:** Notebook creado y listo para ejecutar en Colab. Pendiente ejecución por el usuario.
+**Artefactos esperados:** `models/fraud_model.pkl`, `models/scaler.pkl`, `models/isolation_forest.pkl`, `models/metrics.json`, `models/shap_feature_importance.json`
 
 **Entrada:** `data/processed/claims_with_documents.csv`
 
@@ -682,7 +685,7 @@ models/shap_feature_importance.json
 
 ---
 
-### Fase 9 — Integración del modelo en la app
+### Fase 9 — Integración del modelo en la app ✅ COMPLETADA
 
 **Archivo:** `src/models/predict_model.py`
 
@@ -690,6 +693,14 @@ models/shap_feature_importance.json
 - Si `fraud_model.pkl` existe → usar modelo y sumar `score_modelo`.
 - Si no existe → usar solo reglas (fallback), mostrar advertencia visible en UI.
 - Mostrar importancia de variables SHAP al analista.
+
+**Resultado real (2026-05-29):**
+- `ModelArtifacts`: carga lazy de RF + IsolationForest + scaler + SHAP
+- `predict_scores(df)`: añade model_rf_score, model_isof_score, model_score, model_available
+- Fallback silencioso cuando no hay artefactos — score_modelo = 0 (no bloquea la app)
+- `get_shap_explanation(id_sin)`: top-5 features con dirección de impacto
+- `get_model_info()`: metadatos para panel de estado en dashboard
+- 20/20 tests pasando — `tests/test_predict_model.py`
 
 ---
 
