@@ -598,13 +598,22 @@ def get_network_risk_score(id_siniestro, G) -> float:
 
 ---
 
-### Fase 7 — NLP: similitud narrativa
+### Fase 7 — NLP: similitud narrativa ✅ COMPLETADA
 
 **Objetivo:** Detectar reclamos con narrativas copiadas o muy similares.
 
 **Archivo:** `src/nlp/narrative_similarity.py`
 
 **Nota:** El Excel ya incluye `Similitud Narrativa Máx.` — usar ese campo como base y enriquecerlo con análisis propio sobre los textos completos.
+
+**Resultado real (2026-05-29):**
+- Dataset tiene solo 33 descripciones únicas en 500 siniestros (dato real del dataset sintético)
+- TF-IDF sobre los 33 grupos únicos; `similitud_narrativa` del Excel como fuente autoritativa
+- Señales: `nlp_freq_descripcion` (max=70: "Siniestro reportado con documentación.")
+- 437 siniestros con descripción "común" (≥10 usos) → texto scripted = señal de fraude
+- `nlp_score` (0-100): 70% similitud Excel + 30% frecuencia normalizada
+- `similarity_pairs.csv` + `claims_nlp.csv` generados
+- 28/28 tests pasando — `tests/test_nlp.py`
 
 **Implementación:**
 ```python
