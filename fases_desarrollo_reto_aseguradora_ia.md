@@ -553,11 +553,19 @@ recomendacion_revision, score_reglas, score_documental, score_modelo, score_nlp
 
 ---
 
-### Fase 6 — Análisis de redes de relaciones ⭐ (nivel 5 en Análisis)
+### Fase 6 — Análisis de redes de relaciones ⭐ ✅ COMPLETADA
 
 **Objetivo:** Detectar patrones no evidentes mediante grafo asegurado–proveedor–siniestro.
 
 **Archivo:** `src/network/relationship_graph.py`
+
+**Resultado real (2026-05-29):**
+- Grafo: 707 nodos (500 siniestros + 174 asegurados + 33 proveedores), 1000 aristas
+- 1 componente gigante conectado
+- Anomalías detectadas: 287 siniestros con proveedor de alto riesgo | 371 con asegurado recurrente | 46 pares concentrados
+- `network_edges.csv`: 1000 aristas exportadas para visualización Plotly
+- `net_score` por siniestro (0-100) para integración en score final
+- 21/21 tests pasando — `tests/test_network.py`
 
 **Qué detecta (anomalías no evidentes):**
 - Asegurados que comparten el mismo proveedor en múltiples siniestros
