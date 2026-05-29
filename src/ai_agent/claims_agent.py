@@ -206,23 +206,64 @@ def _build_claim_context(row: pd.Series, shap_top: list[dict] = None) -> str:
 
 
 def _build_portfolio_context(df: pd.DataFrame) -> str:
-    """Resumen estadístico del portafolio para preguntas generales."""
-    dist = df["nivel_riesgo"].value_counts().to_dict() if "nivel_riesgo" in df.columns else {}
-    top5 = (
-        df.nlargest(5, "score_riesgo")[["id_siniestro", "score_riesgo", "nivel_riesgo"]]
-        .to_string(index=False)
-        if "score_riesgo" in df.columns else "N/D"
-    )
+    """
+    Construye el contexto del portafolio para preguntas generales.
+
+    - Si el dataset tiene ≤150 filas (ej. CSV subido): incluye TODOS los siniestros
+      con sus columnas clave para que el agente pueda responder cualquier pregunta.
+    - Si tiene >150 filas: incluye estadísticas + top 10 por nivel para no saturar
+      la ventana de contexto del modelo.
+    """
+    has_score = "score_riesgo" in df.columns
+    has_nivel = "nivel_riesgo" in df.columns
+    dist = df["nivel_riesgo"].value_counts().to_dict() if has_nivel else {}
+
     lines = [
-        "## Contexto del portafolio",
+        "## Contexto del portafolio de siniestros",
         f"- Total siniestros: {len(df)}",
-        f"- Distribución niveles: {dist}",
-        f"- Score medio: {df['score_riesgo'].mean():.1f}" if "score_riesgo" in df.columns else "",
-        "",
-        "Top 5 por score de riesgo:",
-        top5,
+        f"- Distribución por nivel: {dist}",
     ]
-    return "\n".join(l for l in lines if l is not None)
+    if has_score:
+        lines += [
+            f"- Score medio: {df['score_riesgo'].mean():.1f}",
+            f"- Score máximo: {df['score_riesgo'].max():.1f}",
+            f"- Score mínimo: {df['score_riesgo'].min():.1f}",
+        ]
+    if "ramo" in df.columns:
+        lines.append(f"- Ramos presentes: {', '.join(df['ramo'].dropna().unique().tolist())}")
+
+    # Columnas clave que aportan contexto útil al agente
+    detail_cols = [c for c in [
+        "id_siniestro", "nivel_riesgo", "score_riesgo", "ramo",
+        "monto_reclamado", "rule_alerts", "recomendacion",
+        "doc_factura_alterada", "proveedor_lista_restrictiva",
+        "narrativa_clonada", "similitud_narrativa",
+    ] if c in df.columns]
+
+    if len(df) <= 150:
+        # Dataset pequeño: incluir todos los registros para respuestas exactas
+        lines += [
+            "",
+            f"### Lista completa de siniestros ({len(df)} filas):",
+            df.sort_values("score_riesgo", ascending=False)[detail_cols]
+            .to_string(index=False),
+        ]
+    else:
+        # Dataset grande: top 10 por cada nivel
+        lines += ["", "### Muestra por nivel de riesgo (top 10 por nivel):"]
+        for nivel in ["ALTO", "MEDIO", "BAJO"]:
+            if not has_nivel:
+                break
+            grupo = df[df["nivel_riesgo"] == nivel]
+            if grupo.empty:
+                continue
+            top = grupo.nlargest(10, "score_riesgo") if has_score else grupo.head(10)
+            lines += [
+                f"\n**{nivel} ({len(grupo)} siniestros en total):**",
+                top[detail_cols].to_string(index=False),
+            ]
+
+    return "\n".join(str(l) for l in lines if l is not None)
 
 
 # ---------------------------------------------------------------------------
