@@ -69,9 +69,9 @@ def _score_modelo(score_reglas_norm: pd.Series, modelo_scores: pd.Series = None)
 # ---------------------------------------------------------------------------
 
 def _classify(score: float) -> str:
-    if score <= 30:
+    if score <= 40:
         return "BAJO"
-    elif score <= 65:
+    elif score <= 75:
         return "MEDIO"
     else:
         return "ALTO"

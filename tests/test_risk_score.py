@@ -65,17 +65,17 @@ class TestClasificacion:
     def test_score_0_es_bajo(self):
         assert _classify(0) == "BAJO"
 
-    def test_score_30_es_bajo(self):
-        assert _classify(30) == "BAJO"
+    def test_score_40_es_bajo(self):
+        assert _classify(40) == "BAJO"
 
-    def test_score_31_es_medio(self):
-        assert _classify(31) == "MEDIO"
+    def test_score_41_es_medio(self):
+        assert _classify(41) == "MEDIO"
 
-    def test_score_65_es_medio(self):
-        assert _classify(65) == "MEDIO"
+    def test_score_75_es_medio(self):
+        assert _classify(75) == "MEDIO"
 
-    def test_score_66_es_alto(self):
-        assert _classify(66) == "ALTO"
+    def test_score_76_es_alto(self):
+        assert _classify(76) == "ALTO"
 
     def test_score_100_es_alto(self):
         assert _classify(100) == "ALTO"
