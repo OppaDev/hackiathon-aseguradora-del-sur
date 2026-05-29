@@ -1,0 +1,17 @@
+pandas>=2.0
+numpy
+openpyxl
+streamlit>=1.35
+plotly
+scikit-learn
+joblib
+python-dotenv
+pymupdf
+pdfplumber
+regex
+pytest
+rapidfuzz
+networkx
+anthropic
+xgboost
+shap

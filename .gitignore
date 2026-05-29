@@ -1,0 +1,32 @@
+# Entorno virtual
+.venv/
+env/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Variables de entorno y secrets
+.env
+.streamlit/secrets.toml
+
+# Modelos entrenados (se generan con Colab, se suben manualmente si son pequeños)
+# Comentar la siguiente línea si se quiere incluir los .pkl en el repo
+# models/*.pkl
+
+# Datos de salida (se regeneran al correr la app)
+data/outputs/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp

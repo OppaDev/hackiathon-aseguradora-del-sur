@@ -1,0 +1,25 @@
+name: fraudia
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas>=2.0
+  - openpyxl
+  - scikit-learn
+  - joblib
+  - pytest
+  - pip
+  - pip:
+      - streamlit>=1.35
+      - plotly
+      - python-dotenv
+      - pymupdf
+      - pdfplumber
+      - regex
+      - rapidfuzz
+      - networkx
+      - anthropic
+      - xgboost
+      - shap
