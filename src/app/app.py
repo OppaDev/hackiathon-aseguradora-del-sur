@@ -62,6 +62,7 @@ with st.sidebar:
         "🔤 Análisis NLP":             "nlp",
         "🤖 Modelo ML":                "model",
         "💬 Agente IA":                "agent",
+        "📥 Cargar siniestros":        "upload",
     }
     page_label = st.radio("Navegación", list(PAGES.keys()), label_visibility="collapsed")
     page = PAGES[page_label]
@@ -650,3 +651,246 @@ elif page == "agent":
                 for item in shap_exp[:5]:
                     dire = "⬆️" if item.get("direction") == "aumenta riesgo" else "⬇️"
                     st.markdown(f"- {dire} `{item['feature']}`: {item['shap_value']:+.4f}")
+
+
+# ── 8. CARGAR SINIESTROS (CU01) ───────────────────────────────────────────────
+elif page == "upload":
+    st.title("📥 Cargar Siniestros")
+    st.caption("CU01 — El sistema valida la estructura y puntúa los casos nuevos")
+
+    # ── Columnas requeridas según sección 6.1 del reto ──────────────────────
+    REQUIRED_COLS = [
+        "id_siniestro", "ramo", "monto_reclamado", "monto_estimado",
+        "dias_desde_inicio_poliza", "dias_hasta_fin_poliza",
+        "dias_ocurrencia_reporte", "historial_siniestros_asegurado",
+    ]
+    OPTIONAL_COLS = [
+        "id_poliza", "id_asegurado", "id_proveedor", "cobertura",
+        "fecha_ocurrencia", "fecha_reporte", "estado", "descripcion",
+        "monto_pagado", "similitud_narrativa", "ratio_monto_suma",
+        "proveedor_lista_restrictiva", "doc_factura_alterada",
+        "doc_ruc_invalido", "narrativa_clonada", "narrativa_similar",
+        "reporte_tardio", "alerta_borde_inicio", "alerta_borde_fin",
+        "cantidad_documentos", "n_reclamos_12_meses", "n_reclamos_historico",
+        "reclamos_rc_sin_tercero", "antiguedad_anios",
+        "n_siniestros_proveedor", "promedio_monto_proveedor",
+        "doc_sin_denuncia_previa", "doc_sin_testigos",
+        "doc_robo", "doc_perdida_total", "doc_parte_tardio",
+    ]
+
+    # ── Instrucciones + descarga de plantilla ───────────────────────────────
+    with st.expander("📋 Instrucciones y plantilla", expanded=True):
+        st.markdown(
+            "Sube un archivo **CSV** con siniestros nuevos. "
+            "El sistema validará la estructura, detectará señales de riesgo y "
+            "asignará un score 0-100 a cada caso.\n\n"
+            f"**Columnas obligatorias ({len(REQUIRED_COLS)}):** "
+            f"`{'`, `'.join(REQUIRED_COLS)}`\n\n"
+            "Las columnas opcionales enriquecen el análisis pero no son necesarias."
+        )
+        # Plantilla descargable
+        template_df = pd.DataFrame(columns=REQUIRED_COLS + ["descripcion", "id_asegurado", "id_proveedor"])
+        template_df.loc[0] = {
+            "id_siniestro": "SIN-0001", "ramo": "Vehículos",
+            "monto_reclamado": 5000.0, "monto_estimado": 4500.0,
+            "dias_desde_inicio_poliza": 45, "dias_hasta_fin_poliza": 320,
+            "dias_ocurrencia_reporte": 2, "historial_siniestros_asegurado": 0,
+            "descripcion": "Choque lateral en intersección con semáforo en verde.",
+            "id_asegurado": "ASEG-0001", "id_proveedor": "TALLER-001",
+        }
+        st.download_button(
+            "⬇️ Descargar plantilla CSV",
+            data=template_df.to_csv(index=False, encoding="utf-8-sig"),
+            file_name="plantilla_siniestros.csv",
+            mime="text/csv",
+        )
+
+    # ── Upload ───────────────────────────────────────────────────────────────
+    uploaded = st.file_uploader(
+        "Selecciona un archivo CSV de siniestros",
+        type=["csv"],
+        help="Máximo 200 MB. Debe incluir las columnas obligatorias.",
+    )
+
+    if uploaded is None:
+        st.info("⬆️ Sube un CSV para comenzar el análisis. Puedes usar la plantilla de arriba.")
+        st.stop()
+
+    # ── Leer archivo ─────────────────────────────────────────────────────────
+    try:
+        raw_df = pd.read_csv(uploaded, encoding="utf-8-sig", low_memory=False)
+    except Exception:
+        try:
+            uploaded.seek(0)
+            raw_df = pd.read_csv(uploaded, encoding="latin-1", low_memory=False)
+        except Exception as e:
+            st.error(f"❌ No se pudo leer el archivo: {e}")
+            st.stop()
+
+    st.success(f"✅ Archivo cargado: **{uploaded.name}** — {len(raw_df)} filas, {raw_df.shape[1]} columnas")
+
+    # ── VALIDACIÓN DE ESTRUCTURA ──────────────────────────────────────────────
+    st.subheader("🔍 Validación de estructura")
+
+    cols_present  = [c for c in REQUIRED_COLS if c in raw_df.columns]
+    cols_missing  = [c for c in REQUIRED_COLS if c not in raw_df.columns]
+    cols_optional = [c for c in OPTIONAL_COLS if c in raw_df.columns]
+
+    v1, v2, v3 = st.columns(3)
+    with v1:
+        st.metric("Columnas obligatorias encontradas",
+                  f"{len(cols_present)}/{len(REQUIRED_COLS)}",
+                  delta=None if cols_missing else "✓ Completo")
+    with v2:
+        st.metric("Columnas opcionales presentes", len(cols_optional))
+    with v3:
+        st.metric("Filas a procesar", len(raw_df))
+
+    if cols_missing:
+        st.error(f"❌ Faltan columnas obligatorias: `{'`, `'.join(cols_missing)}`")
+        st.markdown(
+            "El sistema puede continuar con scoring parcial usando solo las columnas disponibles, "
+            "pero la precisión será menor."
+        )
+        if not st.checkbox("Continuar de todas formas con scoring parcial"):
+            st.stop()
+    else:
+        st.success("✅ Estructura válida — todas las columnas obligatorias presentes")
+
+    # Validaciones de datos
+    issues = []
+    if "monto_reclamado" in raw_df.columns and (pd.to_numeric(raw_df["monto_reclamado"], errors="coerce") < 0).any():
+        issues.append("⚠️ `monto_reclamado` tiene valores negativos")
+    if "dias_desde_inicio_poliza" in raw_df.columns and (pd.to_numeric(raw_df["dias_desde_inicio_poliza"], errors="coerce") < 0).any():
+        issues.append("⚠️ `dias_desde_inicio_poliza` tiene valores negativos")
+    if raw_df.get("id_siniestro", pd.Series(dtype=str)).duplicated().any():
+        issues.append("⚠️ Existen `id_siniestro` duplicados en el archivo")
+    nulls_pct = raw_df[cols_present].isnull().mean().mean() * 100
+    if nulls_pct > 20:
+        issues.append(f"⚠️ Alta proporción de nulos en columnas clave ({nulls_pct:.1f}%)")
+
+    if issues:
+        for iss in issues:
+            st.warning(iss)
+    else:
+        st.success("✅ Datos válidos — sin anomalías estructurales detectadas")
+
+    # ── PREVIEW ───────────────────────────────────────────────────────────────
+    with st.expander("👁️ Vista previa de los datos cargados"):
+        st.dataframe(raw_df.head(10), use_container_width=True)
+        st.caption(f"Mostrando 10 de {len(raw_df)} filas")
+
+    # ── SCORING ───────────────────────────────────────────────────────────────
+    st.subheader("⚡ Calcular score de riesgo")
+    st.markdown(
+        "El motor aplica las **24 reglas antifraude** y el **modelo ML** "
+        "a cada siniestro del archivo."
+    )
+
+    if st.button("🚀 Procesar y puntuar siniestros", type="primary"):
+        with st.spinner("Procesando siniestros..."):
+
+            from src.rules.fraud_rules import apply_rules_df
+            from src.scoring.risk_score import compute_scores
+
+            work_df = raw_df.copy()
+
+            # Derivar ratio_monto_suma si no existe
+            if "ratio_monto_suma" not in work_df.columns:
+                if "monto_reclamado" in work_df.columns and "monto_estimado" in work_df.columns:
+                    denom = pd.to_numeric(work_df["monto_estimado"], errors="coerce").replace(0, np.nan)
+                    work_df["ratio_monto_suma"] = (
+                        pd.to_numeric(work_df["monto_reclamado"], errors="coerce") / denom
+                    ).clip(0, 5)
+
+            # Derivar alertas de borde si no existen
+            if "alerta_borde_inicio" not in work_df.columns and "dias_desde_inicio_poliza" in work_df.columns:
+                d = pd.to_numeric(work_df["dias_desde_inicio_poliza"], errors="coerce").fillna(999)
+                work_df["alerta_borde_inicio"] = d <= 30
+            if "alerta_borde_fin" not in work_df.columns and "dias_hasta_fin_poliza" in work_df.columns:
+                d = pd.to_numeric(work_df["dias_hasta_fin_poliza"], errors="coerce").fillna(999)
+                work_df["alerta_borde_fin"] = d <= 30
+            if "reporte_tardio" not in work_df.columns and "dias_ocurrencia_reporte" in work_df.columns:
+                d = pd.to_numeric(work_df["dias_ocurrencia_reporte"], errors="coerce").fillna(0)
+                work_df["reporte_tardio"] = d > 7
+
+            # Aplicar scoring completo
+            try:
+                scored_new = compute_scores(work_df)
+            except Exception as e:
+                st.error(f"Error en scoring: {e}")
+                st.stop()
+
+            # Aplicar modelo ML si está disponible
+            arts = _load_artifacts_cached()
+            if arts.available:
+                from src.models.predict_model import predict_scores
+                scored_new = predict_scores(scored_new, arts)
+
+        # ── Resultados ────────────────────────────────────────────────────────
+        st.success(f"✅ Procesados {len(scored_new)} siniestros")
+
+        # KPIs
+        nivel_counts = scored_new["nivel_riesgo"].value_counts() if "nivel_riesgo" in scored_new.columns else pd.Series(dtype=int)
+        k1, k2, k3, k4 = st.columns(4)
+        with k1:
+            st.metric("Total", len(scored_new))
+        with k2:
+            st.metric("🟢 Bajo",  int(nivel_counts.get("BAJO",  0)))
+        with k3:
+            st.metric("🟡 Medio", int(nivel_counts.get("MEDIO", 0)))
+        with k4:
+            st.metric("🔴 Alto",  int(nivel_counts.get("ALTO",  0)),
+                      delta="⚠️ Requieren revisión" if nivel_counts.get("ALTO", 0) > 0 else None,
+                      delta_color="inverse")
+
+        # Tabla de resultados
+        display_cols = (
+            ["id_siniestro", "nivel_riesgo", "score_riesgo", "score_reglas",
+             "recomendacion", "alertas_activas"]
+        )
+        display_cols = [c for c in display_cols if c in scored_new.columns]
+        result_df = scored_new.sort_values("score_riesgo", ascending=False)[display_cols]
+
+        # Colorear por nivel
+        def color_nivel(val):
+            colors = {"ALTO": "background-color:#fee2e2",
+                      "MEDIO": "background-color:#fef9c3",
+                      "BAJO": "background-color:#dcfce7"}
+            return colors.get(val, "")
+
+        if "nivel_riesgo" in result_df.columns:
+            st.dataframe(
+                result_df.style.applymap(color_nivel, subset=["nivel_riesgo"]),
+                use_container_width=True, height=400,
+            )
+        else:
+            st.dataframe(result_df, use_container_width=True, height=400)
+
+        # Gráfico de distribución
+        if "score_riesgo" in scored_new.columns:
+            fig_up = px.histogram(
+                scored_new, x="score_riesgo",
+                color="nivel_riesgo" if "nivel_riesgo" in scored_new.columns else None,
+                color_discrete_map={"ALTO": "#dc2626", "MEDIO": "#d97706", "BAJO": "#16a34a"},
+                nbins=20, title="Distribución de scores — archivo cargado",
+                labels={"score_riesgo": "Score de riesgo (0-100)"},
+            )
+            fig_up.add_vline(x=40, line_dash="dash", line_color="gray", annotation_text="Bajo/Medio")
+            fig_up.add_vline(x=75, line_dash="dash", line_color="gray", annotation_text="Medio/Alto")
+            fig_up.update_layout(margin=dict(t=40, b=0), height=300)
+            st.plotly_chart(fig_up, use_container_width=True)
+
+        # Exportar
+        csv_out = scored_new.to_csv(index=False, encoding="utf-8-sig")
+        st.download_button(
+            "⬇️ Descargar resultados con scores",
+            data=csv_out,
+            file_name=f"scored_{uploaded.name}",
+            mime="text/csv",
+        )
+
+        st.caption(
+            "⚖️ Los scores son alertas para revisión humana. "
+            "No constituyen acusaciones ni rechazan automáticamente ningún siniestro."
+        )
