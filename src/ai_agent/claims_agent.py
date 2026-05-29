@@ -207,61 +207,182 @@ def _build_claim_context(row: pd.Series, shap_top: list[dict] = None) -> str:
 
 def _build_portfolio_context(df: pd.DataFrame) -> str:
     """
-    Construye el contexto del portafolio para preguntas generales.
+    Construye contexto completo del portafolio para que el agente pueda
+    responder TODAS las preguntas del jurado del hackathon:
+    - Top 10 por score, proveedores, ciudades, asegurados frecuentes,
+      documentos faltantes, montos atípicos, casos borde de póliza, patrones.
 
-    - Si el dataset tiene ≤150 filas (ej. CSV subido): incluye TODOS los siniestros
-      con sus columnas clave para que el agente pueda responder cualquier pregunta.
-    - Si tiene >150 filas: incluye estadísticas + top 10 por nivel para no saturar
-      la ventana de contexto del modelo.
+    Para datasets <= 150 filas incluye todas las filas (CSV subido).
+    Para datasets > 150 filas incluye estadísticas agregadas + top casos.
     """
-    has_score = "score_riesgo" in df.columns
-    has_nivel = "nivel_riesgo" in df.columns
+    import numpy as np
+
+    def col(name):
+        return name in df.columns
+
+    has_score = col("score_riesgo")
+    has_nivel = col("nivel_riesgo")
     dist = df["nivel_riesgo"].value_counts().to_dict() if has_nivel else {}
 
     lines = [
-        "## Contexto del portafolio de siniestros",
+        "## Portafolio de siniestros — contexto completo para análisis",
         f"- Total siniestros: {len(df)}",
-        f"- Distribución por nivel: {dist}",
+        f"- Distribución por nivel de riesgo: {dist}",
     ]
     if has_score:
         lines += [
             f"- Score medio: {df['score_riesgo'].mean():.1f}",
             f"- Score máximo: {df['score_riesgo'].max():.1f}",
-            f"- Score mínimo: {df['score_riesgo'].min():.1f}",
         ]
-    if "ramo" in df.columns:
-        lines.append(f"- Ramos presentes: {', '.join(df['ramo'].dropna().unique().tolist())}")
+    if col("ramo"):
+        ramo_dist = df.groupby("ramo").size().sort_values(ascending=False)
+        lines.append(f"- Distribución por ramo: { {k: int(v) for k, v in ramo_dist.items()} }")
+    if col("monto_reclamado"):
+        montos = pd.to_numeric(df["monto_reclamado"], errors="coerce")
+        lines += [
+            f"- Monto reclamado: media ${montos.mean():,.0f} | máx ${montos.max():,.0f} | p95 ${montos.quantile(0.95):,.0f}",
+        ]
 
-    # Columnas clave que aportan contexto útil al agente
+    # ── Columnas de detalle por siniestro ─────────────────────────────────────
     detail_cols = [c for c in [
         "id_siniestro", "nivel_riesgo", "score_riesgo", "ramo",
-        "monto_reclamado", "rule_alerts", "recomendacion",
-        "doc_factura_alterada", "proveedor_lista_restrictiva",
+        "ciudad", "sucursal", "id_asegurado", "nombres_asegurado",
+        "id_proveedor", "nombre_proveedor",
+        "monto_reclamado", "ratio_monto_suma",
+        "dias_desde_inicio_poliza", "dias_hasta_fin_poliza",
+        "n_reclamos_12_meses", "historial_siniestros_asegurado",
+        "rule_alerts", "doc_factura_alterada", "doc_ruc_invalido",
+        "doc_sin_denuncia_previa", "doc_sin_testigos",
         "narrativa_clonada", "similitud_narrativa",
+        "proveedor_lista_restrictiva", "recomendacion",
     ] if c in df.columns]
 
     if len(df) <= 150:
-        # Dataset pequeño: incluir todos los registros para respuestas exactas
+        # Dataset pequeño (CSV subido): incluir todos los registros
         lines += [
             "",
-            f"### Lista completa de siniestros ({len(df)} filas):",
-            df.sort_values("score_riesgo", ascending=False)[detail_cols]
-            .to_string(index=False),
+            f"### Lista completa ({len(df)} siniestros):",
+            df.sort_values("score_riesgo", ascending=False)[detail_cols].to_string(index=False),
         ]
-    else:
-        # Dataset grande: top 10 por cada nivel
-        lines += ["", "### Muestra por nivel de riesgo (top 10 por nivel):"]
-        for nivel in ["ALTO", "MEDIO", "BAJO"]:
-            if not has_nivel:
-                break
+        return "\n".join(str(l) for l in lines if l is not None)
+
+    # ── Dataset grande: top por score + agregaciones analíticas ───────────────
+
+    # 1. Top 10 por score (pregunta 18)
+    if has_score:
+        top10 = df.nlargest(10, "score_riesgo")[detail_cols]
+        lines += ["", "### Top 10 siniestros con mayor score de riesgo:", top10.to_string(index=False)]
+
+    # 2. Por nivel (preguntas generales)
+    if has_nivel:
+        for nivel in ["ALTO", "MEDIO"]:
             grupo = df[df["nivel_riesgo"] == nivel]
             if grupo.empty:
                 continue
             top = grupo.nlargest(10, "score_riesgo") if has_score else grupo.head(10)
+            lines += [f"\n### Casos {nivel} ({len(grupo)} en total — mostrando top 10):",
+                      top[detail_cols].to_string(index=False)]
+
+    # 3. Proveedores con más alertas (preguntas 20 + fuego "80% alertas rojas")
+    if col("id_proveedor") and col("rule_alerts"):
+        prov = df.groupby(
+            ["id_proveedor"] + (["nombre_proveedor"] if col("nombre_proveedor") else [])
+        ).agg(
+            n_siniestros=("id_siniestro", "count"),
+            n_alto=("nivel_riesgo", lambda x: (x == "ALTO").sum()) if has_nivel else ("id_siniestro", "count"),
+            n_medio=("nivel_riesgo", lambda x: (x == "MEDIO").sum()) if has_nivel else ("id_siniestro", "count"),
+            score_medio=("score_riesgo", "mean") if has_score else ("id_siniestro", "count"),
+            monto_total=("monto_reclamado", "sum") if col("monto_reclamado") else ("id_siniestro", "count"),
+        ).reset_index().sort_values("n_alto", ascending=False).head(15)
+        lines += ["", "### Proveedores con más casos de riesgo:", prov.to_string(index=False)]
+
+    # 4. Ciudades con mayor concentración de alertas (pregunta 22)
+    ciudad_col = "ciudad" if col("ciudad") else ("sucursal" if col("sucursal") else None)
+    if ciudad_col and has_nivel:
+        ciu = df.groupby(ciudad_col).agg(
+            n_siniestros=("id_siniestro", "count"),
+            n_alto=("nivel_riesgo", lambda x: (x == "ALTO").sum()),
+            n_medio=("nivel_riesgo", lambda x: (x == "MEDIO").sum()),
+            score_medio=("score_riesgo", "mean") if has_score else ("id_siniestro", "count"),
+        ).reset_index()
+        ciu["n_alertas"] = ciu["n_alto"] + ciu["n_medio"]
+        ciu = ciu.sort_values("n_alertas", ascending=False).head(15)
+        lines += ["", f"### Concentración de alertas por ciudad ({ciudad_col}):", ciu.to_string(index=False)]
+
+    # 5. Asegurados con mayor frecuencia de reclamos (pregunta 23)
+    if col("id_asegurado"):
+        aseg_cols = ["id_asegurado"] + (["nombres_asegurado"] if col("nombres_asegurado") else [])
+        aseg = df.groupby(aseg_cols).agg(
+            n_siniestros=("id_siniestro", "count"),
+            n_alto=("nivel_riesgo", lambda x: (x == "ALTO").sum()) if has_nivel else ("id_siniestro", "count"),
+            n_reclamos_12m=("n_reclamos_12_meses", "max") if col("n_reclamos_12_meses") else ("id_siniestro", "count"),
+            score_max=("score_riesgo", "max") if has_score else ("id_siniestro", "count"),
+            monto_total=("monto_reclamado", "sum") if col("monto_reclamado") else ("id_siniestro", "count"),
+        ).reset_index().sort_values("n_siniestros", ascending=False).head(15)
+        lines += ["", "### Asegurados con mayor frecuencia de reclamos:", aseg.to_string(index=False)]
+
+    # 6. Documentos faltantes en casos críticos (pregunta 24)
+    doc_flags = [c for c in ["doc_sin_denuncia_previa", "doc_sin_testigos",
+                              "doc_factura_alterada", "doc_ruc_invalido",
+                              "doc_parte_tardio", "doc_caso_inconsistente"] if c in df.columns]
+    if doc_flags and has_nivel:
+        altos = df[df["nivel_riesgo"].isin(["ALTO", "MEDIO"])]
+        if not altos.empty:
+            doc_freq = {}
+            for d in doc_flags:
+                v = pd.to_numeric(altos[d], errors="coerce").fillna(0)
+                doc_freq[d] = int(v.sum())
+            lines += ["", "### Señales documentales en casos ALTO/MEDIO:"]
+            for k, v in sorted(doc_freq.items(), key=lambda x: -x[1]):
+                if v > 0:
+                    lines.append(f"  - {k}: {v} casos")
+
+    # 7. Montos atípicos (pregunta 25)
+    if col("monto_reclamado") and col("ratio_monto_suma"):
+        montos = df[["id_siniestro", "nivel_riesgo", "score_riesgo",
+                     "monto_reclamado", "ratio_monto_suma", "ramo"]].copy() if has_nivel else \
+                 df[["id_siniestro", "monto_reclamado", "ratio_monto_suma"]].copy()
+        ratio = pd.to_numeric(montos["ratio_monto_suma"], errors="coerce")
+        montos_atip = montos[ratio >= 0.90].sort_values("ratio_monto_suma", ascending=False).head(15)
+        if not montos_atip.empty:
+            lines += ["", "### Casos con montos atípicos (ratio monto/suma asegurada >= 90%):",
+                      montos_atip.to_string(index=False)]
+
+    # 8. Siniestros cerca del inicio de póliza (pregunta 26 + prueba de fuego)
+    if col("dias_desde_inicio_poliza"):
+        borde = df[pd.to_numeric(df["dias_desde_inicio_poliza"], errors="coerce") <= 30].copy()
+        if not borde.empty:
+            borde_cols = [c for c in ["id_siniestro", "nivel_riesgo", "score_riesgo",
+                                       "ramo", "dias_desde_inicio_poliza",
+                                       "monto_reclamado", "rule_alerts"] if c in borde.columns]
             lines += [
-                f"\n**{nivel} ({len(grupo)} siniestros en total):**",
-                top[detail_cols].to_string(index=False),
+                "",
+                f"### Siniestros ocurridos en los primeros 30 días de póliza ({len(borde)} casos):",
+                borde.sort_values("dias_desde_inicio_poliza")[borde_cols].head(20).to_string(index=False),
             ]
+
+    # 9. Patrones repetidos (pregunta 27)
+    patrones = []
+    if col("narrativa_clonada"):
+        n = int(pd.to_numeric(df["narrativa_clonada"], errors="coerce").fillna(0).sum())
+        if n > 0: patrones.append(f"Narrativas clonadas: {n} casos")
+    if col("narrativa_similar"):
+        n = int(pd.to_numeric(df["narrativa_similar"], errors="coerce").fillna(0).sum())
+        if n > 0: patrones.append(f"Narrativas similares: {n} casos")
+    if col("proveedor_lista_restrictiva"):
+        n = int(pd.to_numeric(df["proveedor_lista_restrictiva"], errors="coerce").fillna(0).sum())
+        if n > 0: patrones.append(f"Proveedor en lista restrictiva: {n} casos")
+    if col("doc_factura_alterada"):
+        n = int(pd.to_numeric(df["doc_factura_alterada"], errors="coerce").fillna(0).sum())
+        if n > 0: patrones.append(f"Factura alterada detectada: {n} casos")
+    if col("alerta_borde_inicio"):
+        n = int(pd.to_numeric(df["alerta_borde_inicio"], errors="coerce").fillna(0).sum())
+        if n > 0: patrones.append(f"Alerta borde inicio de póliza: {n} casos")
+    if col("reporte_tardio"):
+        n = int(pd.to_numeric(df["reporte_tardio"], errors="coerce").fillna(0).sum())
+        if n > 0: patrones.append(f"Reporte tardío del evento: {n} casos")
+    if patrones:
+        lines += ["", "### Patrones repetidos en el portafolio:"] + [f"  - {p}" for p in patrones]
 
     return "\n".join(str(l) for l in lines if l is not None)
 
