@@ -13,6 +13,7 @@ st.set_page_config(
 )
 
 import pandas as pd
+import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 from pathlib import Path
@@ -830,29 +831,122 @@ elif page == "upload":
         # ── Resultados ────────────────────────────────────────────────────────
         st.success(f"✅ Procesados {len(scored_new)} siniestros")
 
-        # KPIs
         nivel_counts = scored_new["nivel_riesgo"].value_counts() if "nivel_riesgo" in scored_new.columns else pd.Series(dtype=int)
+        n_alto  = int(nivel_counts.get("ALTO",  0))
+        n_medio = int(nivel_counts.get("MEDIO", 0))
+        n_bajo  = int(nivel_counts.get("BAJO",  0))
+        total   = len(scored_new)
+
+        # ── KPIs ──────────────────────────────────────────────────────────────
         k1, k2, k3, k4 = st.columns(4)
         with k1:
-            st.metric("Total", len(scored_new))
+            st.metric("Total siniestros", total)
         with k2:
-            st.metric("🟢 Bajo",  int(nivel_counts.get("BAJO",  0)))
+            st.metric("🟢 Bajo",  n_bajo,  delta=f"{n_bajo/total:.1%} del lote")
         with k3:
-            st.metric("🟡 Medio", int(nivel_counts.get("MEDIO", 0)))
+            st.metric("🟡 Medio", n_medio, delta=f"{n_medio/total:.1%} del lote")
         with k4:
-            st.metric("🔴 Alto",  int(nivel_counts.get("ALTO",  0)),
-                      delta="⚠️ Requieren revisión" if nivel_counts.get("ALTO", 0) > 0 else None,
-                      delta_color="inverse")
+            st.metric("🔴 Alto",  n_alto,
+                      delta="⚠️ Requieren revisión" if n_alto > 0 else "Sin casos críticos",
+                      delta_color="inverse" if n_alto > 0 else "off")
 
-        # Tabla de resultados
-        display_cols = (
-            ["id_siniestro", "nivel_riesgo", "score_riesgo", "score_reglas",
-             "recomendacion", "alertas_activas"]
-        )
+        st.divider()
+
+        # ── GRÁFICOS RESUMEN ──────────────────────────────────────────────────
+        st.subheader("📊 Resumen del lote cargado")
+        gc1, gc2 = st.columns(2)
+
+        # Donut semáforo
+        with gc1:
+            nivel_order = ["ALTO", "MEDIO", "BAJO"]
+            nivel_vals  = [nivel_counts.get(n, 0) for n in nivel_order]
+            fig_donut = go.Figure(go.Pie(
+                labels=nivel_order, values=nivel_vals,
+                hole=0.55,
+                marker_colors=["#dc2626", "#d97706", "#16a34a"],
+                textinfo="label+percent",
+                hovertemplate="%{label}: %{value} siniestros<extra></extra>",
+            ))
+            fig_donut.update_layout(
+                title="Distribución por nivel de riesgo",
+                showlegend=False, margin=dict(t=40, b=10, l=10, r=10), height=300,
+            )
+            st.plotly_chart(fig_donut, use_container_width=True)
+
+        # Histograma de scores
+        with gc2:
+            fig_hist = px.histogram(
+                scored_new, x="score_riesgo",
+                color="nivel_riesgo" if "nivel_riesgo" in scored_new.columns else None,
+                color_discrete_map={"ALTO": "#dc2626", "MEDIO": "#d97706", "BAJO": "#16a34a"},
+                nbins=20,
+                title="Distribución del score de riesgo",
+                labels={"score_riesgo": "Score (0-100)", "count": "Siniestros"},
+            )
+            fig_hist.add_vline(x=40, line_dash="dash", line_color="#6b7280",
+                               annotation_text="Bajo/Medio", annotation_position="top left")
+            fig_hist.add_vline(x=75, line_dash="dash", line_color="#ef4444",
+                               annotation_text="Medio/Alto", annotation_position="top left")
+            fig_hist.update_layout(margin=dict(t=40, b=0), height=300, showlegend=False)
+            st.plotly_chart(fig_hist, use_container_width=True)
+
+        # Distribución por ramo (si existe)
+        if "ramo" in scored_new.columns:
+            gc3, gc4 = st.columns(2)
+            with gc3:
+                ramo_risk = (
+                    scored_new.groupby("ramo")["score_riesgo"]
+                    .agg(["mean", "count"])
+                    .rename(columns={"mean": "Score medio", "count": "N° siniestros"})
+                    .sort_values("Score medio", ascending=False)
+                    .reset_index()
+                )
+                fig_ramo = px.bar(
+                    ramo_risk, x="ramo", y="Score medio",
+                    color="Score medio",
+                    color_continuous_scale=["#16a34a", "#d97706", "#dc2626"],
+                    range_color=[0, 100],
+                    title="Score medio por ramo",
+                    text=ramo_risk["Score medio"].round(1),
+                )
+                fig_ramo.update_traces(textposition="outside")
+                fig_ramo.update_layout(margin=dict(t=40, b=0), height=300,
+                                       coloraxis_showscale=False)
+                st.plotly_chart(fig_ramo, use_container_width=True)
+
+            # Top casos por score
+            with gc4:
+                top_n = min(10, len(scored_new))
+                top_df = scored_new.nlargest(top_n, "score_riesgo")[
+                    ["id_siniestro", "nivel_riesgo", "score_riesgo"]
+                ].reset_index(drop=True)
+                top_df.index += 1
+                color_map = {"ALTO": "#dc2626", "MEDIO": "#d97706", "BAJO": "#16a34a"}
+                fig_top = go.Figure(go.Bar(
+                    x=top_df["score_riesgo"],
+                    y=top_df["id_siniestro"],
+                    orientation="h",
+                    marker_color=[color_map.get(n, "#6b7280") for n in top_df["nivel_riesgo"]],
+                    text=top_df["score_riesgo"].round(1),
+                    textposition="outside",
+                ))
+                fig_top.update_layout(
+                    title=f"Top {top_n} siniestros por score",
+                    xaxis_range=[0, 110], height=300,
+                    yaxis={"autorange": "reversed"},
+                    margin=dict(t=40, b=0),
+                )
+                st.plotly_chart(fig_top, use_container_width=True)
+
+        st.divider()
+
+        # ── TABLA DE RESULTADOS ────────────────────────────────────────────────
+        st.subheader("📋 Detalle de siniestros puntuados")
+        display_cols = ["id_siniestro", "nivel_riesgo", "score_riesgo", "score_reglas",
+                        "recomendacion", "rule_alerts"]
         display_cols = [c for c in display_cols if c in scored_new.columns]
         result_df = scored_new.sort_values("score_riesgo", ascending=False)[display_cols]
 
-        # Colorear por nivel
         def color_nivel(val):
             colors = {"ALTO": "background-color:#fee2e2",
                       "MEDIO": "background-color:#fef9c3",
@@ -862,34 +956,18 @@ elif page == "upload":
         if "nivel_riesgo" in result_df.columns:
             st.dataframe(
                 result_df.style.applymap(color_nivel, subset=["nivel_riesgo"]),
-                use_container_width=True, height=400,
+                use_container_width=True, height=420,
             )
         else:
-            st.dataframe(result_df, use_container_width=True, height=400)
+            st.dataframe(result_df, use_container_width=True, height=420)
 
-        # Gráfico de distribución
-        if "score_riesgo" in scored_new.columns:
-            fig_up = px.histogram(
-                scored_new, x="score_riesgo",
-                color="nivel_riesgo" if "nivel_riesgo" in scored_new.columns else None,
-                color_discrete_map={"ALTO": "#dc2626", "MEDIO": "#d97706", "BAJO": "#16a34a"},
-                nbins=20, title="Distribución de scores — archivo cargado",
-                labels={"score_riesgo": "Score de riesgo (0-100)"},
-            )
-            fig_up.add_vline(x=40, line_dash="dash", line_color="gray", annotation_text="Bajo/Medio")
-            fig_up.add_vline(x=75, line_dash="dash", line_color="gray", annotation_text="Medio/Alto")
-            fig_up.update_layout(margin=dict(t=40, b=0), height=300)
-            st.plotly_chart(fig_up, use_container_width=True)
-
-        # Exportar
-        csv_out = scored_new.to_csv(index=False, encoding="utf-8-sig")
+        # ── EXPORTAR ──────────────────────────────────────────────────────────
         st.download_button(
             "⬇️ Descargar resultados con scores",
-            data=csv_out,
+            data=scored_new.to_csv(index=False, encoding="utf-8-sig"),
             file_name=f"scored_{uploaded.name}",
             mime="text/csv",
         )
-
         st.caption(
             "⚖️ Los scores son alertas para revisión humana. "
             "No constituyen acusaciones ni rechazan automáticamente ningún siniestro."
