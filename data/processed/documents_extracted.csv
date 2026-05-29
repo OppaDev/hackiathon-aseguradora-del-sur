@@ -1,0 +1,684 @@
+﻿tipo_documento,archivo_pdf,id_siniestro,proveedor,ruc,ruc_invalido,fecha_factura,numero_factura,cliente,placa,subtotal,iva,total,factura_alterada,caso_marcado,texto_extraido,ruta_pdf,id_documento,numero_parte,fecha_elaboracion,fecha_hecho,hora_hecho,lugar,tipo_accidente,consecuencias,flagrancia,robo,perdida_total,lesionados,detenidos,sin_denuncia_previa,sin_testigos,parte_tardio_dias,placa_asegurado,observaciones,nombre_asegurado,poliza,fecha_accidente,hora_accidente,danos_declarados,relato,velocidad_kmh,tercero_identificado,placa_tercero,sin_intervencion_policial
+Factura,Muestras_Facturas_Siniestros- SIN-0001.pdf,SIN-0001,MULTISERVICIOS AUTOMOTRICES EC,1792293312001,False,2025-07-17,001-002-747311022,García Morales Luis Eduardo,MNT-7384,4806.96,721.04,5528.0,False,Legítimo,"Subtotal 15%
+$4806.96
+IVA 15%
+$721.04
+TOTAL A PAGAR
+$5528.00
+MULTISERVICIOS AUTOMOTRICES EC
+Servicios Automotrices Integrales
+RUC: 1792293312001
+Quito, Ecuador
+Tel: (02) 2572227 
+FACTURA
+Nº: 001-002-747311022
+Fecha: 2025-07-17
+Siniestro Ref: SIN-0001 
+Cliente:
+García Morales Luis Eduardo
+Placa:
+MNT-7384
+C.I./RUC:
+1719536045
+Vehículo:
+SUV Multimarca
+Cant.
+Descripción
+V. Unitario
+V. Total
+1
+Reparación de carrocería y pintura (Siniestro
+SIN-0001)
+$2884.18
+$2884.18
+1
+Repuestos originales y mano de o",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\facturas\Muestras_Facturas_Siniestros- SIN-0001.pdf,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Factura,Muestras_Facturas_Siniestros- SIN-0003.pdf,SIN-0003,TALLER QUITO SUR CÍA.,1792718420001,False,2025-07-26,001-002-365818154,Torres Espinoza Carlos Andrés,CHB-4472,7029.57,1054.43,8084.0,False,Legítimo,"Subtotal 15%
+$7029.57
+IVA 15%
+$1054.43
+TOTAL A PAGAR
+$8084.00
+TALLER QUITO SUR CÍA.
+Servicios Automotrices Integrales
+RUC: 1792718420001
+Quito, Ecuador
+Tel: (02) 2386996 
+FACTURA
+Nº: 001-002-365818154
+Fecha: 2025-07-26
+Siniestro Ref: SIN-0003 
+Cliente:
+Torres Espinoza Carlos Andrés
+Placa:
+CHB-4472
+C.I./RUC:
+1758341557
+Vehículo:
+SUV Multimarca
+Cant.
+Descripción
+V. Unitario
+V. Total
+1
+Reparación de carrocería y pintura (Siniestro
+SIN-0003)
+$4217.74
+$4217.74
+1
+Repuestos originales y mano de obra
+me",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\facturas\Muestras_Facturas_Siniestros- SIN-0003.pdf,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Factura,Muestras_Facturas_Siniestros-SIN-0004.pdf,SIN-0004,MECÁNICA IMBABURA S.A.,123456789 - INVÁLIDO,True,2025-07-10,001-002-642663860,Rodríguez Cárdenas María José,RIO-2918,19853.91,2978.09,34248.0,True,Fraude,"Subtotal 15%
+$19853.91
+IVA 15%
+$2978.09
+TOTAL A PAGAR
+$34248.00
+MECÁNICA IMBABURA S.A.
+Servicios Automotrices Integrales
+RUC: 123456789 - INVÁLIDO
+Quito, Ecuador
+Tel: (02) 2579081 
+FACTURA
+Nº: 001-002-642663860
+Fecha: 2025-07-10
+Siniestro Ref: SIN-0004 
+Cliente:
+Rodríguez Cárdenas
+María José
+Placa:
+RIO-2918
+C.I./RUC:
+1797506931
+Vehículo:
+SUV Multimarca
+Cant.
+Descripción
+V. Unitario
+V. Total
+1
+Reparación de carrocería y pintura (Siniestro
+SIN-0004)
+$11912.35
+$11912.35
+1
+Repuestos originales y man",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\facturas\Muestras_Facturas_Siniestros-SIN-0004.pdf,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Factura,Muestras_Facturas_Siniestros-SIN-0005.pdf,SIN-0005,SERVICIO EXPRESS LOJA,123456789 - INVÁLIDO,True,2025-07-13,001-002-562666648,López Guerrero Juan Pablo,AZY-7734,6081.74,912.26,10491.0,True,Fraude,"Subtotal 15%
+$6081.74
+IVA 15%
+$912.26
+TOTAL A PAGAR
+$10491.00
+SERVICIO EXPRESS LOJA
+Servicios Automotrices Integrales
+RUC: 123456789 - INVÁLIDO
+Quito, Ecuador
+Tel: (02) 2661962 
+FACTURA
+Nº: 001-002-562666648
+Fecha: 2025-07-13
+Siniestro Ref: SIN-0005 
+Cliente:
+López Guerrero Juan
+Pablo
+Placa:
+AZY-7734
+C.I./RUC:
+1795557883
+Vehículo:
+SUV Multimarca
+Cant.
+Descripción
+V. Unitario
+V. Total
+1
+Reparación de carrocería y pintura (Siniestro
+SIN-0005)
+$3649.04
+$3649.04
+1
+Repuestos originales y mano de obra",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\facturas\Muestras_Facturas_Siniestros-SIN-0005.pdf,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Factura,Muestras_Facturas_Siniestros-SIN-0006.pdf,SIN-0006,DOCUMENTOS ALTERADOS,123456789 - INVÁLIDO,True,2025-07-17,001-002-410191834,Martínez Alvarado Rosa Elena,MNT-7384,16895.65,2534.35,29145.0,True,Fraude,"Subtotal 15%
+$16895.65
+IVA 15%
+$2534.35
+TOTAL A PAGAR
+$29145.00
+TALLER ANÓNIMO MANTA —
+DOCUMENTOS ALTERADOS
+Servicios Automotrices Integrales
+RUC: 123456789 - INVÁLIDO
+Quito, Ecuador
+Tel: (02) 2863108 
+FACTURA
+Nº:
+001-002-410191834
+Fecha: 2025-07-17
+Siniestro Ref:
+SIN-0006 
+Cliente:
+Martínez Alvarado Rosa
+Elena
+Placa:
+MNT-7384
+C.I./RUC:
+1772758728
+Vehículo:
+SUV Multimarca
+Cant.
+Descripción
+V. Unitario
+V. Total
+1
+Reparación de carrocería y pintura (Siniestro
+SIN-0006)
+$10137.39
+$10137.39
+1
+Repues",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\facturas\Muestras_Facturas_Siniestros-SIN-0006.pdf,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Factura,Muestras_Facturas_Siniestros-SIN-0007.pdf,SIN-0007,MECÁNICA MANABÍ,1792912240001,False,2025-07-28,001-002-651605673,Freire Castillo Marco Antonio,GYE-8371,3109.57,466.43,3576.0,False,Legítimo,"Subtotal 15%
+$3109.57
+IVA 15%
+$466.43
+TOTAL A PAGAR
+$3576.00
+MECÁNICA MANABÍ
+Servicios Automotrices Integrales
+RUC: 1792912240001
+Quito, Ecuador
+Tel: (02) 2136237 
+FACTURA
+Nº: 001-002-651605673
+Fecha: 2025-07-28
+Siniestro Ref: SIN-0007 
+Cliente:
+Freire Castillo Marco Antonio
+Placa:
+GYE-8371
+C.I./RUC:
+1735568594
+Vehículo:
+SUV Multimarca
+Cant.
+Descripción
+V. Unitario
+V. Total
+1
+Reparación de carrocería y pintura (Siniestro
+SIN-0007)
+$1865.74
+$1865.74
+1
+Repuestos originales y mano de obra
+mecánica
+",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\facturas\Muestras_Facturas_Siniestros-SIN-0007.pdf,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Factura,Muestras_Facturas_Siniestros-SIN-0008.pdf,SIN-0008,TALLER QUITO SUR CÍA.,1792217133001,False,2025-07-17,001-002-803676982,Sánchez Herrera Diego Alejandro Placa: GYE-8371,GYE-8371,10171.3,1525.7,11697.0,False,Legítimo,"Subtotal 15%
+$10171.30
+IVA 15%
+$1525.70
+TOTAL A PAGAR
+$11697.00
+TALLER QUITO SUR CÍA.
+Servicios Automotrices Integrales
+RUC: 1792217133001
+Quito, Ecuador
+Tel: (02) 2269732 
+FACTURA
+Nº: 001-002-803676982
+Fecha: 2025-07-17
+Siniestro Ref: SIN-0008 
+Cliente:
+Sánchez Herrera Diego Alejandro Placa:
+GYE-8371
+C.I./RUC:
+1734156327
+Vehículo:
+SUV Multimarca
+Cant.
+Descripción
+V. Unitario
+V. Total
+1
+Reparación de carrocería y pintura (Siniestro
+SIN-0008)
+$6102.78
+$6102.78
+1
+Repuestos originales y mano de obr",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\facturas\Muestras_Facturas_Siniestros-SIN-0008.pdf,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Factura,Muestras_Facturas_Siniestros-SIN-0009.pdf,SIN-0009,AUTO SERVICE QUITO NORTE,123456789 - INVÁLIDO,True,2025-07-15,001-002-642739671,Ramírez Peñafiel Carmen Susana,CHB-4472,11955.65,1793.35,20623.5,True,Fraude,"Subtotal 15%
+$11955.65
+IVA 15%
+$1793.35
+TOTAL A PAGAR
+$20623.50
+AUTO SERVICE QUITO NORTE
+Servicios Automotrices Integrales
+RUC: 123456789 - INVÁLIDO
+Quito, Ecuador
+Tel: (02) 2358384 
+FACTURA
+Nº: 001-002-642739671
+Fecha: 2025-07-15
+Siniestro Ref: SIN-0009 
+Cliente:
+Ramírez Peñafiel Carmen
+Susana
+Placa:
+CHB-4472
+C.I./RUC:
+1772473856
+Vehículo:
+SUV Multimarca
+Cant.
+Descripción
+V. Unitario
+V. Total
+1
+Reparación de carrocería y pintura (Siniestro
+SIN-0009)
+$7173.39
+$7173.39
+1
+Repuestos originales y ma",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\facturas\Muestras_Facturas_Siniestros-SIN-0009.pdf,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Factura,Muestras_Facturas_Siniestros-SIN-0010.pdf,SIN-0010,TALLER EL NORTE CÍA. LTDA.,1792649274001,False,2025-07-22,001-002-932488070,Flores Castillo Roberto Antonio,GYE-4837,8607.83,1291.17,9899.0,False,Legítimo,"Subtotal 15%
+$8607.83
+IVA 15%
+$1291.17
+TOTAL A PAGAR
+$9899.00
+TALLER EL NORTE CÍA. LTDA.
+Servicios Automotrices Integrales
+RUC: 1792649274001
+Quito, Ecuador
+Tel: (02) 2363577 
+FACTURA
+Nº: 001-002-932488070
+Fecha: 2025-07-22
+Siniestro Ref: SIN-0010 
+Cliente:
+Flores Castillo Roberto Antonio
+Placa:
+GYE-4837
+C.I./RUC:
+1746819001
+Vehículo:
+SUV Multimarca
+Cant.
+Descripción
+V. Unitario
+V. Total
+1
+Reparación de carrocería y pintura (Siniestro
+SIN-0010)
+$5164.70
+$5164.70
+1
+Repuestos originales y mano de ",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\facturas\Muestras_Facturas_Siniestros-SIN-0010.pdf,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Factura,Muestras_Facturas_Siniestros-SIN-0022.pdf,SIN-0022,TALLER NO REGISTRADO — ASOCIADO A RED DE FRAUDE,123456789 - INVÁLIDO,True,2025-07-26,001-002-163546317,Carrillo Cabrera Patricio German,PIC-7293,9001.74,1350.26,15528.0,True,Fraude,"Subtotal 15%
+$9001.74
+IVA 15%
+$1350.26
+TOTAL A PAGAR
+$15528.00
+TALLER NO REGISTRADO — ASOCIADO
+A RED DE FRAUDE
+Servicios Automotrices Integrales
+RUC: 123456789 - INVÁLIDO
+Quito, Ecuador
+Tel: (02) 2365781 
+FACTURA
+Nº:
+001-002-163546317
+Fecha: 2025-07-26
+Siniestro Ref:
+SIN-0022 
+Cliente:
+Carrillo Cabrera
+Patricio German
+Placa:
+PIC-7293
+C.I./RUC:
+1719417225
+Vehículo:
+SUV Multimarca
+Cant.
+Descripción
+V. Unitario
+V. Total
+1
+Reparación de carrocería y pintura (Siniestro
+SIN-0022)
+$5401.04
+$5401.04
+1
+R",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\facturas\Muestras_Facturas_Siniestros-SIN-0022.pdf,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Factura,Muestras_Facturas_Siniestros-SIN-0028.pdf,SIN-0028,TALLER CHIMBORAZO EXPRESS,0992341234001,False,2025-07-13,001-002-476219099,Espinoza Rueda Cinthya Dayana Placa: PIC-1234,PIC-1234,7122.32,1040.48,8477.0,False,Inconsistente,"Subtotal 15%
+$7122.32
+IVA 15%
+$1040.48
+TOTAL A PAGAR
+$8477.00
+TALLER CHIMBORAZO EXPRESS
+Servicios Automotrices Integrales
+RUC: 0992341234001
+Quito, Ecuador
+Tel: (02) 2853758 
+FACTURA
+Nº: 001-002-476219099
+Fecha: 2025-07-13
+Siniestro Ref: SIN-0028 
+Cliente:
+Espinoza Rueda Cinthya Dayana Placa:
+PIC-1234
+C.I./RUC:
+1751660063
+Vehículo:
+SUV Multimarca
+Cant.
+Descripción
+V. Unitario
+V. Total
+1
+Reparación de carrocería y pintura (Siniestro
+SIN-0028)
+$4273.39
+$4273.39
+1
+Repuestos originales y mano de obr",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\facturas\Muestras_Facturas_Siniestros-SIN-0028.pdf,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Factura,Muestras_Facturas_Siniestros-SIN-0029.pdf,SIN-0029,AUTOMOTRIZ AMBATO CENTRAL,0992341234001,False,2025-07-22,001-002-951063631,Brito Ordóñez Henry Omar,TNB-1029,11547.32,1686.91,13433.0,False,Inconsistente,"Subtotal 15%
+$11547.32
+IVA 15%
+$1686.91
+TOTAL A PAGAR
+$13433.00
+AUTOMOTRIZ AMBATO CENTRAL
+Servicios Automotrices Integrales
+RUC: 0992341234001
+Quito, Ecuador
+Tel: (02) 2151652 
+FACTURA
+Nº: 001-002-951063631
+Fecha: 2025-07-22
+Siniestro Ref: SIN-0029 
+Cliente:
+Brito Ordóñez Henry Omar
+Placa:
+TNB-1029
+C.I./RUC:
+1777189265
+Vehículo:
+SUV Multimarca
+Cant.
+Descripción
+V. Unitario
+V. Total
+1
+Reparación de carrocería y pintura (Siniestro
+SIN-0029)
+$6928.39
+$6928.39
+1
+Repuestos originales y mano de obra
+m",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\facturas\Muestras_Facturas_Siniestros-SIN-0029.pdf,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Factura,Muestras_Facturas_Siniestros-SIN-0030.pdf,SIN-0030,SERVICIO TÉCNICO LOJA,0992341234001,False,2025-07-26,001-002-638688850,Pacheco Vélez Gloria Susana,MNT-7384,3909.82,571.17,4879.0,False,Inconsistente,"Subtotal 15%
+$3909.82
+IVA 15%
+$571.17
+TOTAL A PAGAR
+$4879.00
+SERVICIO TÉCNICO LOJA
+Servicios Automotrices Integrales
+RUC: 0992341234001
+Quito, Ecuador
+Tel: (02) 2952876 
+FACTURA
+Nº: 001-002-638688850
+Fecha: 2025-07-26
+Siniestro Ref: SIN-0030 
+Cliente:
+Pacheco Vélez Gloria Susana
+Placa:
+MNT-7384
+C.I./RUC:
+1787434253
+Vehículo:
+SUV Multimarca
+Cant.
+Descripción
+V. Unitario
+V. Total
+1
+Reparación de carrocería y pintura (Siniestro
+SIN-0030)
+$2345.89
+$2345.89
+1
+Repuestos originales y mano de obra
+mecán",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\facturas\Muestras_Facturas_Siniestros-SIN-0030.pdf,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Factura,Muestras_Facturas_Siniestros-SIN-0032.pdf,SIN-0032,TALLER PORTUARIO GUAYAQUIL,0992341234001,False,2025-07-10,001-002-160293741,Cabrera Yépez Marcelo Javier,LOJ-8834,9170.54,1339.7,10771.0,False,Inconsistente,"Subtotal 15%
+$9170.54
+IVA 15%
+$1339.70
+TOTAL A PAGAR
+$10771.00
+TALLER PORTUARIO GUAYAQUIL
+Servicios Automotrices Integrales
+RUC: 0992341234001
+Quito, Ecuador
+Tel: (02) 2833419 
+FACTURA
+Nº: 001-002-160293741
+Fecha: 2025-07-10
+Siniestro Ref: SIN-0032 
+Cliente:
+Cabrera Yépez Marcelo Javier
+Placa:
+LOJ-8834
+C.I./RUC:
+1727704578
+Vehículo:
+SUV Multimarca
+Cant.
+Descripción
+V. Unitario
+V. Total
+1
+Reparación de carrocería y pintura (Siniestro
+SIN-0032)
+$5502.32
+$5502.32
+1
+Repuestos originales y mano de ob",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\facturas\Muestras_Facturas_Siniestros-SIN-0032.pdf,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Factura,Muestras_Facturas_Siniestros-SIN-0035.pdf,SIN-0035,AUTOMOTRIZ CENTRO SUR,0992341234001,False,2025-07-11,001-002-105322454,Palacios Andrade Cristóbal Sebastián,SDO-1847,6377.68,931.7,7643.0,False,Inconsistente,"Subtotal 15%
+$6377.68
+IVA 15%
+$931.70
+TOTAL A PAGAR
+$7643.00
+AUTOMOTRIZ CENTRO SUR
+Servicios Automotrices Integrales
+RUC: 0992341234001
+Quito, Ecuador
+Tel: (02) 2476048 
+FACTURA
+Nº: 001-002-105322454
+Fecha: 2025-07-11
+Siniestro Ref: SIN-0035 
+Cliente:
+Palacios Andrade Cristóbal
+Sebastián
+Placa:
+SDO-1847
+C.I./RUC:
+1788970666
+Vehículo:
+SUV Multimarca
+Cant.
+Descripción
+V. Unitario
+V. Total
+1
+Reparación de carrocería y pintura (Siniestro
+SIN-0035)
+$3826.61
+$3826.61
+1
+Repuestos originales y mano de o",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\facturas\Muestras_Facturas_Siniestros-SIN-0035.pdf,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Parte Policial,PP_SIN-0005_DOC-0012.pdf,SIN-0005,,,,,,,,,,,,,"Parte No: PTACP20260492817    Doc ID Sistema: DOC-0012 (SIN: SIN-0005)    Pag. 1
+DOCUMENTO SINTETICO — USO EXCLUSIVO PARA EVALUACION DE PROTOTIPO IA ANTIFRAUDE
+Ministerio
+del Interior
+REPUBLICA DEL ECUADOR — MINISTERIO DEL
+INTERIOR
+NOTICIA DEL INCIDENTE
+Doc ID: DOC-0012
+Siniestro: SIN-0005
+Informacion General
+Fecha de Elaboracion:
+2026-03-22 Hora: 13:55:00
+Parte Policial No:
+PTACP20260492817
+Servicio Policial:
+PARTE DE TRANSITO (ACCIDENTES)
+Identificacion de la Unidad de Policia que intervino
+Zo",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\partes_policiales\PP_SIN-0005_DOC-0012.pdf,DOC-0012,PTACP20260492817,2026-03-22,2026-03-17,02:15:00,AV. HURTADO DE MENDOZA /,Robo,PERDIDA DEL VEHICULO,False,True,True,False,False,True,True,5.0,AZY-7734,El ciudadano no presento denuncia policial formal previa a este parte. Monto reclamado a la aseguradora equivale al 87% de la suma asegurada del vehiculo.,,,,,,,,,,
+Parte Policial,PP_SIN-0022_DOC-0054.pdf,SIN-0022,,,,,,,,,,,,,"Parte No: PTACP20260183492    Doc ID Sistema: DOC-0054 (SIN: SIN-0022)    Pag. 1
+DOCUMENTO SINTETICO — USO EXCLUSIVO PARA EVALUACION DE PROTOTIPO IA ANTIFRAUDE
+Ministerio
+del Interior
+REPUBLICA DEL ECUADOR — MINISTERIO DEL
+INTERIOR
+NOTICIA DEL INCIDENTE
+Doc ID: DOC-0054
+Siniestro: SIN-0022
+Informacion General
+Fecha de Elaboracion:
+2026-03-02 Hora: 09:30:00
+Parte Policial No:
+PTACP20260183492
+Servicio Policial:
+PARTE DE TRANSITO (ACCIDENTES)
+Identificacion de la Unidad de Policia que intervino
+Zo",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\partes_policiales\PP_SIN-0022_DOC-0054.pdf,DOC-0054,PTACP20260183492,2026-03-02,2026-02-13,03:20:00,AV. REPUBLICA / CALLE,Choque,DANOS MATERIALES,False,False,False,False,False,False,False,17.0,PIC-7293,,,,,,,,,,,
+Parte Policial,PP_SIN-0040_DOC-0097.pdf,SIN-0040,,,,,,,,,,,,,"Parte No: PTACP20260284716    Doc ID Sistema: DOC-0097 (SIN: SIN-0040)    Pag. 1
+DOCUMENTO SINTETICO — USO EXCLUSIVO PARA EVALUACION DE PROTOTIPO IA ANTIFRAUDE
+Ministerio
+del Interior
+REPUBLICA DEL ECUADOR — MINISTERIO DEL
+INTERIOR
+NOTICIA DEL INCIDENTE
+Doc ID: DOC-0097
+Siniestro: SIN-0040
+Informacion General
+Fecha de Elaboracion:
+2026-03-13 Hora: 08:55:00
+Parte Policial No:
+PTACP20260284716
+Servicio Policial:
+PARTE DE TRANSITO (ACCIDENTES)
+Identificacion de la Unidad de Policia que intervino
+Zo",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\partes_policiales\PP_SIN-0040_DOC-0097.pdf,DOC-0097,PTACP20260284716,2026-03-13,2026-03-10,14:30:00,AV. KENNEDY / CALLE JOSE,Choque,LESIONADOS Y DANOS MATERIALES,True,False,False,True,True,False,False,3.0,GYE-1847,,,,,,,,,,,
+Parte Policial,PP_SIN-0120_DOC-0296.pdf,SIN-0120,,,,,,,,,,,,,"Parte No: PTACP20260739281    Doc ID Sistema: DOC-0296 (SIN: SIN-0120)    Pag. 1
+DOCUMENTO SINTETICO — USO EXCLUSIVO PARA EVALUACION DE PROTOTIPO IA ANTIFRAUDE
+Ministerio
+del Interior
+REPUBLICA DEL ECUADOR — MINISTERIO DEL
+INTERIOR
+NOTICIA DEL INCIDENTE
+Doc ID: DOC-0296
+Siniestro: SIN-0120
+Informacion General
+Fecha de Elaboracion:
+2026-05-19 Hora: 10:45:00
+Parte Policial No:
+PTACP20260739281
+Servicio Policial:
+PARTE DE TRANSITO (ACCIDENTES)
+Identificacion de la Unidad de Policia que intervino
+Zo",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\partes_policiales\PP_SIN-0120_DOC-0296.pdf,DOC-0296,PTACP20260739281,2026-05-19,2026-05-06,16:15:00,AV. UNIVERSITARIA / CALLE SUCRE,,DANOS MATERIALES,False,False,False,False,False,False,False,13.0,LOJ-0294,"IMPORTANTE: El conductor del vehiculo LOJ-0294 indica que el accidente ocurrio el 6 de mayo de 2026, siendo el presente parte elaborado 13 dias despues del hecho declarado.",,,,,,,,,,
+Parte Policial,PP_SIN-0217_DOC-0538.pdf,SIN-0217,,,,,,,,,,,,,"Parte No: PTACP20261003847    Doc ID Sistema: DOC-0538 (SIN: SIN-0217)    Pag. 1
+DOCUMENTO SINTETICO — USO EXCLUSIVO PARA EVALUACION DE PROTOTIPO IA ANTIFRAUDE
+Ministerio
+del Interior
+REPUBLICA DEL ECUADOR — MINISTERIO DEL
+INTERIOR
+NOTICIA DEL INCIDENTE
+Doc ID: DOC-0538
+Siniestro: SIN-0217
+Informacion General
+Fecha de Elaboracion:
+2026-04-30 Hora: 07:20:00
+Parte Policial No:
+PTACP20261003847
+Servicio Policial:
+PARTE DE TRANSITO (ACCIDENTES)
+Identificacion de la Unidad de Policia que intervino
+Zo",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\partes_policiales\PP_SIN-0217_DOC-0538.pdf,DOC-0538,PTACP20261003847,2026-04-30,2026-04-18,23:45:00,AV. DE LAS AMERICAS / CALLE DEL,Robo,DANOS MATERIALES,False,True,False,False,False,False,True,12.0,AZY-3841,El parte se elabora 12 dias despues del hecho declarado por el ciudadano.,,,,,,,,,,
+Parte Policial,PP_SIN-0344_DOC-0862.pdf,SIN-0344,,,,,,,,,,,,,"Parte No: PTACP20260918473    Doc ID Sistema: DOC-0862 (SIN: SIN-0344)    Pag. 1
+DOCUMENTO SINTETICO — USO EXCLUSIVO PARA EVALUACION DE PROTOTIPO IA ANTIFRAUDE
+Ministerio
+del Interior
+REPUBLICA DEL ECUADOR — MINISTERIO DEL
+INTERIOR
+NOTICIA DEL INCIDENTE
+Doc ID: DOC-0862
+Siniestro: SIN-0344
+Informacion General
+Fecha de Elaboracion:
+2026-04-27 Hora: 07:00:00
+Parte Policial No:
+PTACP20260918473
+Servicio Policial:
+PARTE DE TRANSITO (ACCIDENTES)
+Identificacion de la Unidad de Policia que intervino
+Zo",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\partes_policiales\PP_SIN-0344_DOC-0862.pdf,DOC-0862,PTACP20260918473,2026-04-27,2026-04-16,20:30:00,AV. DANIEL LEON BORJA / CALLE,Choque,PERDIDA TOTAL Y DANOS MATERIALES,False,False,True,False,True,False,False,11.0,CHB-2847,La narrativa de este siniestro presenta similitud del 81% con otro siniestro registrado en el sistema.,,,,,,,,,,
+Declaración Accidente,DA_SIN-0378_DOC-0952.pdf,SIN-0378,,,,,,,PIC-5519,,,,,,"Doc ID: DOC-0952  |  Siniestro: SIN-0378  |  Pág. 1
+DOCUMENTO SINTÉTICO — USO EXCLUSIVO PARA EVALUACIÓN DE PROTOTIPO IA ANTIFRAUDE
+!
+aseguradora del sur
+ASEGURADORA DEL SUR
+FORMULARIO DE RECLAMACIÓN PARA ACCIDENTES DE VEHÍCULO
+FR.RE.100 versión 01
+Línea de Servicio al Cliente: 099 555 3333.
+Matriz - Quito: De Los Naranjos N44-463 y Azucenas - Tel: (02) 299 7500. Ambato: Av. Rodrigo Pachano 13-109. Cuenca: Federico Proaño 365. Guayaquil: Circunvalación
+Sur #304. Loja: Av. Orillas del Zamora. Mant",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\declaraciones_accidente\DA_SIN-0378_DOC-0952.pdf,DOC-0952,,,,,"Av. Colón y Calle Versalles, Quito",,,,,,False,,,False,,,,Ruiz Andrade Patricia Elena,VH-2024-109283,15-01-2025,07:10,"Daños frontales severos: capó, parachoques, motor con posible afectación. Cristal parabrisas fisurado.","Circulaba por Av. Colón cuando al intentar pasar la intersección con Versalles el semáforo cambió a rojo y no pude frenar a tiempo, impactando al vehículo que se había detenido frente a mí. Los daños son principalmente en la parte frontal. El conductor del otro vehículo estuvo presente. Solicito inspección para determinar el total de daños.",50.0,True,PIC-2284,True
+Declaración Accidente,DA_SIN-0401_DOC-1008.pdf,SIN-0401,,,,,,,TNB-2291,,,,,,"Doc ID: DOC-1008  |  Siniestro: SIN-0401  |  Pág. 1
+DOCUMENTO SINTÉTICO — USO EXCLUSIVO PARA EVALUACIÓN DE PROTOTIPO IA ANTIFRAUDE
+!
+aseguradora del sur
+ASEGURADORA DEL SUR
+FORMULARIO DE RECLAMACIÓN PARA ACCIDENTES DE VEHÍCULO
+FR.RE.100 versión 01
+Línea de Servicio al Cliente: 099 555 3333.
+Matriz - Quito: De Los Naranjos N44-463 y Azucenas - Tel: (02) 299 7500. Ambato: Av. Rodrigo Pachano 13-109. Cuenca: Federico Proaño 365. Guayaquil: Circunvalación
+Sur #304. Loja: Av. Orillas del Zamora. Mant",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\declaraciones_accidente\DA_SIN-0401_DOC-1008.pdf,DOC-1008,,,,,"Redondel de la Ex Empresa Eléctrica, Ambato",,,,,,True,,,False,,,,Freire Castillo Marco Antonio,VH-2024-071294,30-10-2024,14:20,"Golpe lateral derecho, espejo retrovisor roto, guardafango trasero derecho abollado.",Me encontraba saliendo del sector Ficoa con dirección al centro de Ambato cuando al llegar al redondel de la Ex Empresa Eléctrica un vehículo que intentaba ingresar a una vía alterna no me cedió el paso e impactó mi vehículo en el costado lateral derecho causando los daños materiales indicados. No se reportan heridos.,40.0,True,TNB-4483,False
+Declaración Accidente,DA_SIN-0427_DOC-1073.pdf,SIN-0427,,,,,,,PIC-8847,,,,,,"Doc ID: DOC-1073  |  Siniestro: SIN-0427  |  Pág. 1
+DOCUMENTO SINTÉTICO — USO EXCLUSIVO PARA EVALUACIÓN DE PROTOTIPO IA ANTIFRAUDE
+!
+aseguradora del sur
+ASEGURADORA DEL SUR
+FORMULARIO DE RECLAMACIÓN PARA ACCIDENTES DE VEHÍCULO
+FR.RE.100 versión 01
+Línea de Servicio al Cliente: 099 555 3333.
+Matriz - Quito: De Los Naranjos N44-463 y Azucenas - Tel: (02) 299 7500. Ambato: Av. Rodrigo Pachano 13-109. Cuenca: Federico Proaño 365. Guayaquil: Circunvalación
+Sur #304. Loja: Av. Orillas del Zamora. Mant",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\declaraciones_accidente\DA_SIN-0427_DOC-1073.pdf,DOC-1073,,,,,"Intersección Av. Naciones Unidas / Calle Portugal, Quito",,,,,,True,,,False,,,,Morales Espín Byron Rodrigo,VH-2024-088341,26-06-2024,08:45,"Golpe en parachoques frontal, guardafango derecho y faro. Rayones en capó.",Me encontraba circulando por Av. Naciones Unidas en dirección al centro cuando al llegar a la intersección con Calle Portugal el vehículo contrario que venía por la calle secundaria no respetó la preferencia de vía e impactó el costado frontal derecho de mi vehículo. El tercero se identificó y acordamos elaborar el parte.,30.0,True,PIC-3374,False
+Declaración Accidente,DA_SIN-0448_DOC-1123.pdf,SIN-0448,,,,,,,GYE-8834,,,,,,"Doc ID: DOC-1123  |  Siniestro: SIN-0448  |  Pág. 1
+DOCUMENTO SINTÉTICO — USO EXCLUSIVO PARA EVALUACIÓN DE PROTOTIPO IA ANTIFRAUDE
+!
+aseguradora del sur
+ASEGURADORA DEL SUR
+FORMULARIO DE RECLAMACIÓN PARA ACCIDENTES DE VEHÍCULO
+FR.RE.100 versión 01
+Línea de Servicio al Cliente: 099 555 3333.
+Matriz - Quito: De Los Naranjos N44-463 y Azucenas - Tel: (02) 299 7500. Ambato: Av. Rodrigo Pachano 13-109. Cuenca: Federico Proaño 365. Guayaquil: Circunvalación
+Sur #304. Loja: Av. Orillas del Zamora. Mant",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\declaraciones_accidente\DA_SIN-0448_DOC-1123.pdf,DOC-1123,,,,,"Vía Perimetral, altura Km 4, Guayaquil",,,,,,True,,,True,,,,Suárez Loor Carmen Violeta,VH-2024-138472,06-08-2024,02:30,Pérdida total del vehículo. Daños estructurales irreparables en toda la carrocería tras colisión frontal de alta velocidad.,Me dirigía por la Vía Perimetral en horas de la madrugada cuando un vehículo que circulaba en sentido contrario invadió mi carril impactándome de frente. El impacto fue de alta intensidad y mi vehículo quedó con pérdida total. El conductor del otro vehículo abandonó el lugar. No hubo testigos. Me fue imposible reportar antes debido a la hospitalización posterior.,90.0,False,,True
+Declaración Accidente,DA_SIN-0456_DOC-1142.pdf,SIN-0456,,,,,,,TNB-6629,,,,,,"Doc ID: DOC-1142  |  Siniestro: SIN-0456  |  Pág. 1
+DOCUMENTO SINTÉTICO — USO EXCLUSIVO PARA EVALUACIÓN DE PROTOTIPO IA ANTIFRAUDE
+!
+aseguradora del sur
+ASEGURADORA DEL SUR
+FORMULARIO DE RECLAMACIÓN PARA ACCIDENTES DE VEHÍCULO
+FR.RE.100 versión 01
+Línea de Servicio al Cliente: 099 555 3333.
+Matriz - Quito: De Los Naranjos N44-463 y Azucenas - Tel: (02) 299 7500. Ambato: Av. Rodrigo Pachano 13-109. Cuenca: Federico Proaño 365. Guayaquil: Circunvalación
+Sur #304. Loja: Av. Orillas del Zamora. Mant",C:\Users\crist\OneDrive\Escritorio\Cris\Hackaton\hackiathon-aseguradora-del-sur\data\raw\pdfs\declaraciones_accidente\DA_SIN-0456_DOC-1142.pdf,DOC-1142,,,,,"Av. Indoamérica y Redondel de Ficoa, Ambato",,,,,,True,,,False,,,,Núñez Villafuerte Diego Sebastián,VH-2025-018273,11-02-2025,21:50,Pérdida total. Vehículo con daños estructurales en toda la parte frontal y lateral izquierda. Airbags activados.,Circulaba por Av. Indoamérica cuando al llegar al redondel de Ficoa un vehículo que ingresaba al redondel sin respetar las señales de tránsito me impactó de frente en el costado izquierdo. El impacto causó pérdida total de mi vehículo. El conductor del otro vehículo estuvo presente pero no quiso dar sus datos completos. Solicito revisión técnica completa para confirmar pérdida total.,70.0,True,TNB-0047,False

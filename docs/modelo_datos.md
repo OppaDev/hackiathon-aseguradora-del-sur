@@ -85,8 +85,23 @@
 Cruce de las 5 hojas del Excel. Una fila por siniestro.
 
 ### documents_extracted.csv
-Campos extraídos de los 26 PDFs disponibles.
-Campos clave: `factura_alterada`, `ruc_invalido`, `parte_tardio_dias`, `tercero_no_identificado`
+Campos extraídos de los 26 PDFs disponibles (26 filas, 45 columnas).
+
+| Campo | Fuente | Descripción |
+|---|---|---|
+| tipo_documento | todos | Factura / Parte Policial / Declaración Accidente |
+| id_siniestro | todos | SIN-XXXX extraído del PDF |
+| factura_alterada | facturas | "DOCUMENTO ALTERADO" detectado en texto |
+| ruc_invalido | facturas | RUC marcado como inválido |
+| caso_marcado | facturas | Legítimo / Fraude / Inconsistente |
+| parte_tardio_dias | partes | días entre fecha_hecho y fecha_elaboracion |
+| sin_denuncia_previa | partes | texto contiene "sin denuncia policial previa" |
+| robo | partes | tipo accidente = Robo |
+| perdida_total | partes | consecuencias contienen "PERDIDA TOTAL" |
+| flagrancia | partes | Flagrancia: SI |
+| tercero_identificado | declaraciones | propietario contrario identificado |
+| sin_testigos | declaraciones | "no hay testigos" en texto |
+| lesionados | declaraciones y partes | lesionados reportados |
 
 ### claims_with_documents.csv
 `claims_master` enriquecido con variables documentales y features derivadas.
