@@ -1,0 +1,14 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "fraudia-dashboard",
+      "runtimeExecutable": "C:\\ProgramData\\anaconda3\\python.exe",
+      "runtimeArgs": ["-m", "streamlit", "run", "src/app/app.py", "--server.port=8503", "--server.headless=true"],
+      "port": 8503,
+      "env": {
+        "PYTHONPATH": "C:\\Users\\crist\\OneDrive\\Escritorio\\Cris\\Hackaton\\hackiathon-aseguradora-del-sur"
+      }
+    }
+  ]
+}
