@@ -510,11 +510,20 @@ def apply_rules(row) -> dict:
 
 ---
 
-### Fase 5 — Score de riesgo final
+### Fase 5 — Score de riesgo final ✅ COMPLETADA
 
 **Objetivo:** Combinar reglas + modelo IA + NLP en score 0-100 con pesos.
 
 **Archivo:** `src/scoring/risk_score.py`
+
+**Resultado real (2026-05-29):**
+- Fórmula: 40% reglas + 25% documental + 20% modelo + 15% NLP
+- Fallback explícito cuando no hay modelo ML entrenado (score_modelo = score_reglas)
+- Distribución: 5 ALTO (1%) | 92 MEDIO (18.4%) | 403 BAJO (80.6%)
+- SIN-0005: 91.6 — caso de mayor riesgo (ALTO, 7 reglas críticas)
+- SIN-0022, SIN-0004, SIN-0009, SIN-0006: también ALTO (documentación fraudulenta)
+- `claims_scored.csv`: 500 filas con score, nivel, recomendación y explicación
+- 28/28 tests pasando — `tests/test_risk_score.py`
 
 **Fórmula del score:**
 
