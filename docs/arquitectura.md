@@ -41,7 +41,8 @@ Excel (5 hojas)  +  26 PDFs
 | Redes | `src/network/relationship_graph.py` | NetworkX: grafo asegurado–proveedor–siniestro |
 | Explicabilidad | `src/explainability/explain_score.py` | Generar justificación textual del score |
 | Agente IA | `src/ai_agent/claims_agent.py` | Claude API con RAG sobre datos procesados |
-| Dashboard | `src/app/app.py` | Streamlit: 7 páginas interactivas |
+| Dashboard | `src/app/app.py` | Streamlit: 8 páginas interactivas |
+| Carga CSV | `src/app/app.py` (página 8) | CU01: validación, scoring en tiempo real y chat IA sobre CSV subido |
 
 ## Arquitectura futura escalable
 
