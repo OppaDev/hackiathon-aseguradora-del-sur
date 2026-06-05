@@ -1,4 +1,4 @@
-pandas>=2.0,<2.2
+pandas==2.1.4
 numpy
 openpyxl
 streamlit>=1.35
