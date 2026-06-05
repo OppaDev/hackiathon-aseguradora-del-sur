@@ -955,7 +955,7 @@ elif page == "upload":
 
         if "nivel_riesgo" in result_df.columns:
             st.dataframe(
-                result_df.style.applymap(color_nivel, subset=["nivel_riesgo"]),
+                result_df.style.map(color_nivel, subset=["nivel_riesgo"]),
                 use_container_width=True, height=420,
             )
         else:
